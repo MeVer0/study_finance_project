@@ -18,7 +18,7 @@ public class TransactionDao extends BaseDaoImpl<Transaction, Integer> {
 
     public void addTransaction(int userId, TransactionService.TransactionType transactionType, int categoryId, Double sum) {
         try {
-            this.create(new Transaction(userId, categoryId, sum));
+            this.create(new Transaction(userId, categoryId, sum, transactionType));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,6 +53,41 @@ public class TransactionDao extends BaseDaoImpl<Transaction, Integer> {
         } catch (SQLException e) {
             e.printStackTrace();
             return new ArrayList<>();
+        }
+    }
+
+    public List<Transaction> getAllSpendByUserId(int userId) {
+        try {
+            return this.queryBuilder().
+                    where()
+                    .eq("UserId", userId)
+                    .and()
+                    .eq("transactionType", TransactionService.TransactionType.SPEND)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    public Transaction getTransactionById(int transactionId) {
+        try {
+            return this.queryBuilder().where().eq("Id", transactionId).queryForFirst();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateTransaction(int transactionId, TransactionService.TransactionType transactionType, int categoryId, Double sum) {
+        try {
+            Transaction transactionToUpdate = this.getTransactionById(transactionId);
+            transactionToUpdate.setSum(sum);
+            transactionToUpdate.setCategoryId(categoryId);
+            transactionToUpdate.setType(transactionType);
+            this.update(transactionToUpdate);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

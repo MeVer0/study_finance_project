@@ -15,6 +15,10 @@ public class CategoryService {
         categoryDao.addCategory(userId, name);
     }
 
+    public void updateCategory(int categoryId, String name){
+        categoryDao.updateCategory(categoryId, name);
+    }
+
     public void deleteCategory(int categoryId){
         categoryDao.deleteCategory(categoryId);
     }
@@ -25,5 +29,25 @@ public class CategoryService {
 
     public Category getCategoryById(int categoryId){
         return categoryDao.getCategoryById(categoryId);
+    }
+
+    public String getCategoryNameByUserIdAndCatId(int userId, int categoryId) {
+        List<Category> userCategories  = categoryDao.getAllCategoriesByUserId(userId);
+        for (Category category : userCategories) {
+            if (category.getId() == categoryId) {
+                return category.getName();
+            }
+        }
+        return "Неизвестная категория";
+    }
+
+    public int getCategoryIdByUserIdAndCategoryName(int userId, String categoryName) {
+        List<Category> userCategories  = categoryDao.getAllCategoriesByUserId(userId);
+        for (Category category : userCategories) {
+            if (category.getName().equals(categoryName)) {
+                return category.getId();
+            }
+        }
+        return 0;
     }
 }

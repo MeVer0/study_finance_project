@@ -24,6 +24,16 @@ public class CategoryDao extends BaseDaoImpl<Category, Integer> {
         }
     }
 
+    public void updateCategory(int categoryId, String name) {
+        try {
+            Category category = this.queryBuilder().where().eq("Id", categoryId).query().get(0);
+            category.setName(name);
+            this.update(category);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void deleteCategory(int categoryId) {
         try {
             Category category = this.queryBuilder().where().eq("Id", categoryId).queryForFirst();

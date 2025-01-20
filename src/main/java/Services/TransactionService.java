@@ -43,4 +43,16 @@ public class TransactionService {
         return transactionDao.getAllIncomeByUserId(userId);
     }
 
+    public List<Transaction> getAllSpendsByUserId(int userId){
+        return transactionDao.getAllSpendByUserId(userId);
+    }
+
+
+    public Transaction getTransactionById(int transactionId){
+        return transactionDao.getTransactionById(transactionId);
+    }
+
+    public void updateTransaction(int transactionId, TransactionType transactionType, int categoryId, Double sum){
+        transactionDao.updateTransaction(transactionId, transactionType, categoryId, sum);
+    }
 }
