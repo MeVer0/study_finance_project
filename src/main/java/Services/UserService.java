@@ -43,10 +43,4 @@ public class UserService {
             throw new RuntimeException(e);
         }
     }
-
-    public static void main(String[] args) throws Exception {
-        UserService us = new UserService();
-        us.addUser("admin", "password");
-        System.out.println(us.checkForLogin("admin", "password"));
-    }
 }
